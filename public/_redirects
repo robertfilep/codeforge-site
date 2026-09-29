@@ -21,5 +21,24 @@
 /wp-sitemap.xml        /sitemap.xml 301
 /sitemap_index.xml     /sitemap.xml 301
 
+# 🔐 DEV PREVIEW — START
+# Private developer access (login at /dev-preview). The session cookie is
+# verified server-side by netlify/edge-functions/dev-preview before these
+# rules run; only verified sessions reach the real React app. To remove the
+# private login, delete this block and that edge function folder.
+/                  /index.html 200!  Cookie=cfs_dev_session
+/*                 /index.html 200   Cookie=cfs_dev_session
+# 🔐 DEV PREVIEW — END
+
+# 🚧 MAINTENANCE MODE — START
+# Serves public/maintenance.html for the homepage and every app route
+# while the site is being rebuilt. Static files (images, favicon, etc.)
+# are still served normally. To restore the full website, delete this
+# block (from START to END). Nothing else needs to change.
+/                  /maintenance.html 200!
+/index.html        /maintenance.html 200!
+/*                 /maintenance.html 200
+# 🚧 MAINTENANCE MODE — END
+
 # ✅ React Router fallback, including the in-app 404 page
 /*                    /index.html 200

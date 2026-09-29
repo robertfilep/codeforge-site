@@ -1,0 +1,573 @@
+<!doctype html>
+<!--
+  CodeForge Studio — temporary maintenance page.
+
+  Served as the public homepage via the "MAINTENANCE MODE" block in
+  public/_redirects. To restore the full website, delete that block
+  (and optionally this file). Nothing else in the project depends on it.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#07070a" />
+
+    <title>CodeForge Studio — Under Construction</title>
+    <meta name="description" content="CodeForge Studio is currently being rebuilt. We'll be back soon." />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CodeForge Studio" />
+    <meta property="og:title" content="CodeForge Studio — Under Construction" />
+    <meta property="og:description" content="CodeForge Studio is currently being rebuilt. We'll be back soon." />
+    <meta property="og:image" content="https://codeforgestudio.no/og-image.jpg" />
+
+    <link rel="icon" href="/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #07070a;
+        --fg: #f4f2ef;
+        --muted: #9a968f;
+        --faint: #5c5953;
+        --line: rgba(255, 255, 255, 0.08);
+        --ember: #ff6a2b;
+        --ember-soft: #ff9a3c;
+        --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
+      body {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        overflow-x: hidden;
+      }
+
+      /* ---------- Ambient background ---------- */
+
+      .ambient {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .ambient::before {
+        /* Restrained ember glow rising from below the content */
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -35vh;
+        width: min(140vw, 1400px);
+        aspect-ratio: 1.6;
+        transform: translateX(-50%);
+        background: radial-gradient(
+          closest-side,
+          rgba(255, 106, 43, 0.16),
+          rgba(255, 106, 43, 0.05) 45%,
+          transparent 75%
+        );
+        filter: blur(20px);
+        animation: breathe 9s ease-in-out infinite;
+      }
+
+      .ambient::after {
+        /* Fine engineering grid, faded towards the edges */
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+        -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+      }
+
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.85;
+          transform: translateX(-50%) scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: translateX(-50%) scale(1.04);
+        }
+      }
+
+      /* ---------- Layout ---------- */
+
+      .shell {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-height: 100svh;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding:
+          max(1.25rem, env(safe-area-inset-top))
+          max(1.25rem, env(safe-area-inset-right))
+          max(1.25rem, env(safe-area-inset-bottom))
+          max(1.25rem, env(safe-area-inset-left));
+      }
+
+      header,
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      /* ---------- Brand ---------- */
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+      }
+
+      .brand svg {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+        filter: drop-shadow(0 0 10px rgba(255, 106, 43, 0.45));
+      }
+
+      .wordmark {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- Status indicator ---------- */
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 0.8rem 0.45rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.02);
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .pulse {
+        position: relative;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--ember);
+        box-shadow: 0 0 8px rgba(255, 106, 43, 0.8);
+      }
+
+      .pulse::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--ember);
+        animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+
+      @keyframes ping {
+        0% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        80%,
+        100% {
+          transform: scale(3);
+          opacity: 0;
+        }
+      }
+
+      /* ---------- Hero ---------- */
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 4.5rem 0 4rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 1.5rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ember-soft);
+      }
+
+      .eyebrow span {
+        color: var(--faint);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 14ch;
+        font-size: clamp(2.6rem, 10.5vw, 6.75rem);
+        font-weight: 600;
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+        background: linear-gradient(180deg, #ffffff 0%, #d9d4cc 55%, #8f8a82 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      h1 em {
+        font-style: normal;
+        background: linear-gradient(100deg, var(--ember-soft) 0%, var(--ember) 60%, #e8431d 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lede {
+        margin: 2rem 0 0;
+        font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--fg);
+      }
+
+      .body {
+        margin: 0.85rem 0 0;
+        max-width: 34rem;
+        font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+        font-weight: 400;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      /* ---------- Coming soon + forge line ---------- */
+
+      .soon {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        margin-top: 3rem;
+        max-width: 34rem;
+      }
+
+      .soon-label {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--fg);
+        white-space: nowrap;
+      }
+
+      .forge-line {
+        position: relative;
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+        overflow: hidden;
+      }
+
+      .forge-line::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 35%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--ember), transparent);
+        animation: sweep 3.2s ease-in-out infinite;
+      }
+
+      @keyframes sweep {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(300%);
+        }
+      }
+
+      /* ---------- Contact ---------- */
+
+      .contact {
+        margin-top: 3.5rem;
+        max-width: 34rem;
+      }
+
+      .contact-label {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+
+      .contact-title {
+        margin: 0.55rem 0 0;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--fg);
+      }
+
+      .contact-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 0.5rem;
+        padding: 0.3rem 0;
+        font-size: clamp(1rem, 2.4vw, 1.15rem);
+        font-weight: 400;
+        color: var(--muted);
+        text-decoration: none;
+        overflow-wrap: anywhere;
+        transition: color 0.3s ease;
+      }
+
+      .contact-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: linear-gradient(90deg, var(--ember-soft), var(--ember));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+
+      .contact-link svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        color: var(--faint);
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+
+      .contact-link:hover,
+      .contact-link:focus-visible {
+        color: var(--fg);
+      }
+
+      .contact-link:hover::after,
+      .contact-link:focus-visible::after {
+        transform: scaleX(1);
+      }
+
+      .contact-link:hover svg,
+      .contact-link:focus-visible svg {
+        color: var(--ember);
+        transform: translate(2px, -2px);
+      }
+
+      .contact-link:focus-visible {
+        outline: none;
+      }
+
+      /* ---------- Footer ---------- */
+
+      footer {
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--line);
+        font-size: 0.75rem;
+        color: var(--faint);
+      }
+
+      footer .mono {
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
+      }
+
+      /* ---------- Entrance animation ---------- */
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      }
+
+      .d1 { animation-delay: 0.05s; }
+      .d2 { animation-delay: 0.15s; }
+      .d3 { animation-delay: 0.3s; }
+      .d4 { animation-delay: 0.4s; }
+      .d5 { animation-delay: 0.55s; }
+      .d6 { animation-delay: 0.7s; }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ---------- Responsive ---------- */
+
+      @media (max-width: 479px) {
+        .wordmark {
+          font-size: 0.7rem;
+          letter-spacing: 0.2em;
+        }
+        .status {
+          padding: 0.4rem 0.65rem 0.4rem 0.6rem;
+          font-size: 0.6rem;
+        }
+        footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.35rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .shell {
+          padding:
+            max(2rem, env(safe-area-inset-top))
+            max(2.5rem, env(safe-area-inset-right))
+            max(2rem, env(safe-area-inset-bottom))
+            max(2.5rem, env(safe-area-inset-left));
+        }
+        main {
+          padding: 5rem 0;
+        }
+        .lede {
+          margin-top: 2.5rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .shell {
+          padding-left: 3.5rem;
+          padding-right: 3.5rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <div class="shell">
+      <header class="reveal d1">
+        <div class="brand">
+          <!-- Flame mark, matching the CodeForge Studio logo -->
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <defs>
+              <linearGradient id="cf-outer" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ff7a32" />
+                <stop offset="1" stop-color="#ef4423" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#cf-outer)"
+              d="M14.6 2c1.2 3.6.4 6.4-2.2 9.3C9.6 14.4 7 17.2 7 21.3 7 26.1 11 30 16 30s9-3.9 9-8.7c0-3-1.3-5.2-3-7.3-.8-1-1.4-2.2-1.5-3.6-1.3 1.1-2 2.6-2 4.2-.9-.6-1.3-1.6-1.2-2.8.3-3.4-.4-7.4-2.7-9.8Z"
+            />
+            <path
+              fill="#ff9420"
+              d="M15.3 15.5c-1.8 1.7-3.2 3.3-2.6 5.6.3 1.1 1 2 .9 3.1-.6-.5-1.1-1.1-1.4-1.8-.6 1-.8 2.1-.5 3.2.6 2 2.3 3.4 4.3 3.4 2.6 0 4.6-2 4.6-4.5 0-2.6-2-4-3.6-5.6-1.1-1.1-1.9-2.2-1.7-3.4Z"
+            />
+          </svg>
+          <span class="wordmark">CodeForge Studio</span>
+        </div>
+
+        <div class="status" role="status">
+          <span class="pulse" aria-hidden="true"></span>
+          Under construction
+        </div>
+      </header>
+
+      <main>
+        <p class="eyebrow reveal d2"><span>//</span> Rebuild in progress</p>
+
+        <h1 class="reveal d3">Something new is being <em>forged.</em></h1>
+
+        <p class="lede reveal d4">We're rebuilding our digital home.</p>
+        <p class="body reveal d4">
+          CodeForge Studio is currently undergoing a major upgrade. We're working on a new
+          experience and will be back soon.
+        </p>
+
+        <div class="soon reveal d5">
+          <span class="soon-label">Coming soon</span>
+          <span class="forge-line" aria-hidden="true"></span>
+        </div>
+
+        <div class="contact reveal d6">
+          <p class="contact-label">Have a project in mind?</p>
+          <p class="contact-title">Get in touch</p>
+          <a class="contact-link" href="mailto:robert@codeforgestudio.no">
+            robert@codeforgestudio.no
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </main>
+
+      <footer class="reveal d5">
+        <span>&copy; <span id="year">2026</span> CodeForge Studio</span>
+        <span class="mono">codeforgestudio.no</span>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
