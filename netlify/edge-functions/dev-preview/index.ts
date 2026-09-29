@@ -91,7 +91,14 @@ function privateHeaders(extra: Record<string, string> = {}): Headers {
 function loginPage(status: number, error?: string, headers: Record<string, string> = {}) {
   return new Response(renderLoginPage(error), {
     status,
-    headers: privateHeaders({ "Content-Type": "text/html; charset=utf-8", ...headers }),
+    headers: privateHeaders({
+      "Content-Type": "text/html; charset=utf-8",
+      // Not "no-referrer": under that policy browsers send `Origin: null` with the
+      // login form POST, which the cross-site check below would reject.
+      // "same-origin" still never leaks the URL to other sites.
+      "Referrer-Policy": "same-origin",
+      ...headers,
+    }),
   });
 }
 
