@@ -19,7 +19,7 @@ export function renderLoginPage(error?: string): string {
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#07070a" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="same-origin" />
     <title>CodeForge Studio — Private Access</title>
     <link rel="icon" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
