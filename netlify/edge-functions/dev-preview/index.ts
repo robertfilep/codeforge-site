@@ -10,12 +10,16 @@
  * The cookie's signature is verified here on every request, before any
  * redirect rule runs, so a forged or expired cookie never reaches the app.
  *
+ * Signed-in HTML pages also get a small "Log out" button (logout-button.ts)
+ * that posts to /dev-preview/logout.
+ *
  * The password lives only in the PROTECTED_PAGE_PASSWORD environment
  * variable. To remove the feature, delete this folder and the DEV PREVIEW
  * block in public/_redirects.
  */
 import type { Config, Context } from "@netlify/edge-functions";
 import { renderLoginPage } from "./login-page.ts";
+import { injectLogoutButton } from "./logout-button.ts";
 
 const COOKIE_NAME = "cfs_dev_session";
 const SESSION_SECONDS = 60 * 60 * 24;
@@ -162,10 +166,16 @@ export default async (req: Request, context: Context) => {
   if (authenticated) {
     // Continue to the real app (routed by the DEV PREVIEW redirect rules)
     const upstream = await context.next();
-    const response = new Response(upstream.body, upstream);
+    const isHtml = upstream.headers.get("content-type")?.includes("text/html");
+    const body = isHtml && req.method === "GET"
+      ? injectLogoutButton(await upstream.text())
+      : upstream.body;
+    const response = new Response(body, upstream);
     response.headers.set("X-Robots-Tag", ROBOTS);
-    if (response.headers.get("content-type")?.includes("text/html")) {
+    if (isHtml) {
       response.headers.set("Cache-Control", "private, no-store");
+      response.headers.delete("Content-Length");
+      response.headers.delete("ETag");
     }
     return response;
   }
